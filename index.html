@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electra — Electrical & Consulting Engineering Office </title>
+<style>
+  :root {
+    --bg: #161513;
+    --bg-panel: #1f1e1b;
+    --bg-card: #242220;
+    --line: #3a3733;
+    --line-bright: #555049;
+    --text: #efece4;
+    --text-dim: #a8a39a;
+    --text-faint: #76716a;
+    --copper: #d4823f;
+    --copper-bright: #f0a868;
+    --status: #7fae5c;
+    --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+    --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ===== Header ===== */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(22, 21, 19, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+
+  .logo {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  nav { display: flex; gap: 28px; }
+  nav a {
+    font-size: 13px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    transition: color 0.15s ease;
+  }
+  nav a:hover { color: var(--copper-bright); }
+
+  .nav-toggle { display: none; }
+
+  /* ===== Hero ===== */
+  .hero {
+    padding: 100px 0 70px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .grid-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--status);
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    margin-bottom: 28px;
+  }
+  .grid-status::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--status);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  .hero h1 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 680px;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 span { color: var(--copper-bright); }
+
+  .hero p.lead {
+    margin-top: 22px;
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 540px;
+  }
+
+  .hero-cta {
+    margin-top: 36px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 26px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--line-bright);
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--copper-bright);
+    color: #1a1410;
+    border-color: var(--copper-bright);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: var(--copper); border-color: var(--copper); }
+  .btn-secondary { color: var(--text); }
+  .btn-secondary:hover { border-color: var(--copper-bright); color: var(--copper-bright); }
+
+  /* ===== Section heading pattern ===== */
+  .section { padding: 80px 0; border-bottom: 1px solid var(--line); }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--copper);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+  .section-intro {
+    color: var(--text-dim);
+    max-width: 620px;
+    margin-bottom: 48px;
+    font-size: 16px;
+  }
+
+  /* ===== Why Electra ===== */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .why-item {
+    background: var(--bg-panel);
+    padding: 32px 28px;
+  }
+  .why-item .num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--copper);
+    margin-bottom: 14px;
+  }
+  .why-item h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .why-item p {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  /* ===== Services — load schedule table ===== */
+  .schedule {
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+  }
+  .schedule-head {
+    display: grid;
+    grid-template-columns: 70px 1fr 1.4fr 110px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 24px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .schedule-row {
+    display: grid;
+    grid-template-columns: 70px 1fr 1.4fr 110px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+    transition: background 0.15s ease;
+  }
+  .schedule-row:last-child { border-bottom: none; }
+  .schedule-row:hover { background: var(--bg-card); }
+
+  .ckt-no {
+    color: var(--copper-bright);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .schedule-row .service-name {
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .schedule-row .service-desc {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-dim);
+    padding-right: 16px;
+  }
+  .schedule-row .seg-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .seg-tag {
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .seg-tag.active { color: var(--status); }
+  .seg-tag.active::before { content: '● '; }
+  .seg-tag:not(.active)::before { content: '○ '; }
+
+  /* ===== Segments / client types ===== */
+  .segments {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .segment-card {
+    border: 1px solid var(--line);
+    padding: 28px;
+    background: var(--bg-panel);
+  }
+  .segment-card h3 {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--copper-bright);
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .segment-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .segment-card li {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding-left: 16px;
+    position: relative;
+  }
+  .segment-card li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-faint);
+  }
+
+  /* ===== Process ===== */
+  .process {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .process-step {
+    padding: 24px 24px 0 0;
+    position: relative;
+  }
+  .process-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    right: -1px;
+    width: 100%;
+    height: 1px;
+    background: var(--line);
+  }
+  .process-step .step-no {
+    font-family: var(--font-mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--line-bright);
+    margin-bottom: 16px;
+    line-height: 1;
+  }
+  .process-step h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .process-step p {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  /* ===== Portfolio ===== */
+  .portfolio-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .filter-pill {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    background: none;
+  }
+  .filter-pill.active, .filter-pill:hover {
+    border-color: var(--copper-bright);
+    color: var(--copper-bright);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .case-card {
+    border: 1px solid var(--line);
+    background: var(--bg-panel);
+  }
+  .case-image {
+    height: 200px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .case-body { padding: 20px; }
+  .case-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--copper);
+    margin-bottom: 10px;
+  }
+  .case-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .case-body p { font-size: 13px; color: var(--text-dim); margin-bottom: 12px; }
+  .case-stat {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--status);
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+
+  /* ===== Equipment ===== */
+  .brands {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .brand-cell {
+    background: var(--bg-panel);
+    padding: 22px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+  }
+  .brand-cell span {
+    display: block;
+    font-size: 10px;
+    color: var(--text-faint);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== Warranty ===== */
+  .warranty-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .warranty-card {
+    border: 1px solid var(--line);
+    padding: 28px;
+  }
+  .warranty-card .wlabel {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--copper-bright);
+    margin-bottom: 12px;
+  }
+  .warranty-card p { color: var(--text-dim); font-size: 14px; }
+
+  /* ===== About ===== */
+  .about-content {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .about-content p { color: var(--text-dim); margin-bottom: 16px; }
+  .credentials {
+    border: 1px solid var(--line);
+    padding: 24px;
+  }
+  .credentials .clabel {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+  .credentials .cval {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .credentials .cval:last-child { margin-bottom: 0; }
+
+  /* ===== Contact ===== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+  }
+  .contact-info .info-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+  .contact-info .info-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    min-width: 90px;
+  }
+  .contact-info .info-val { color: var(--text); }
+  .whatsapp-btn {
+    margin-top: 8px;
+    background: var(--status);
+    color: #14210d;
+    border-color: var(--status);
+    font-weight: 700;
+  }
+  .whatsapp-btn:hover { opacity: 0.88; }
+
+  form { display: flex; flex-direction: column; gap: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: block;
+    margin-bottom: 8px;
+  }
+  input, select, textarea {
+    width: 100%;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--copper-bright);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .checkbox-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .checkbox-pill input { width: auto; }
+
+  /* ===== Footer ===== */
+  footer {
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .hero h1 { font-size: 36px; }
+    .why-grid, .segments, .portfolio-grid, .brands { grid-template-columns: 1fr; }
+    .process { grid-template-columns: 1fr 1fr; }
+    .schedule-head, .schedule-row { grid-template-columns: 50px 1fr; }
+    .schedule-head .col-desc, .schedule-head .col-seg,
+    .schedule-row .service-desc, .schedule-row .seg-tags { display: none; }
+    .about-content, .contact-grid, .field-row, .warranty-grid { grid-template-columns: 1fr; }
+    .hero { padding: 70px 0 50px; }
+    .section { padding: 56px 0; }
+    .wrap { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="logo"><img src="Logo.png" alt="Electra logo" style="height:150px; mix-blend-mode:lighten;"></div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#segments">Solutions</a>
+      <a href="#process">Process</a>
+      <a href="#portfolio">Projects</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="grid-status">Status: power available</div>
+    <h1>Electrical engineering &amp; energy solutions, <span>built for Lebanon's grid.</span></h1>
+    <p class="lead">Electra designs, installs and maintains electrical systems and solar power solutions for homes, businesses and factories across Lebanon — engineered to keep the lights on.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Request a free assessment</a>
+      <a href="#services" class="btn btn-secondary">View services</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-tag">// Why Electra</div>
+    <h2>One engineering partner, from design to handover</h2>
+    <p class="section-intro">Lebanon's power situation means most households and businesses now juggle multiple vendors — a solar installer, an electrician, a generator technician. Electra brings electrical design, solar, power backup and maintenance under one licensed engineering practice.</p>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="num">01</div>
+        <h3>Licensed engineering, not just installation</h3>
+        <p>Every system is designed and signed off by a qualified electrical engineer — not assembled by unlicensed installers.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">02</div>
+        <h3>Designed for outages, not just sunny days</h3>
+        <p>Solar, batteries, UPS and your existing wiring are designed together as one system — sized for real Lebanese load patterns and grid hours.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">03</div>
+        <h3>Support that continues after installation</h3>
+        <p>Maintenance, troubleshooting and energy audits keep your system performing — we don't disappear after handover.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-tag">// Services — load schedule</div>
+    <h2>Six service lines, one engineering office</h2>
+    <p class="section-intro">Each line below is a service you can request individually or combine into a full system. The right column shows which client segments it applies to most.</p>
+    <div class="schedule">
+      <div class="schedule-head">
+        <div>Ckt</div>
+        <div class="col-name">Service</div>
+        <div class="col-desc">Description</div>
+        <div class="col-seg">Applies to</div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">01</div>
+        <div class="service-name">Sustainable solar PV systems</div>
+        <div class="service-desc">Design, supply and installation of solar systems sized to your actual consumption and outage hours.</div>
+        <div class="seg-tags">
+          <span class="seg-tag active">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">02</div>
+        <div class="service-name">Power &amp; UPS solutions</div>
+        <div class="service-desc">Battery backup, hybrid inverters and UPS systems sized to bridge grid and generator gaps.</div>
+        <div class="seg-tags">
+          <span class="seg-tag active">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">03</div>
+        <div class="service-name">Electrical design &amp; documentation</div>
+        <div class="service-desc">Full electrical system design for new builds, renovations and extensions.</div>
+        <div class="seg-tags">
+          <span class="seg-tag active">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">04</div>
+        <div class="service-name">Engineering drawings</div>
+        <div class="service-desc">Single-line diagrams, panel schedules and layout plans for permitting and construction.</div>
+        <div class="seg-tags">
+          <span class="seg-tag">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">05</div>
+        <div class="service-name">Electrical maintenance &amp; troubleshooting</div>
+        <div class="service-desc">Inspections, fault diagnosis and repair for existing electrical and solar systems.</div>
+        <div class="seg-tags">
+          <span class="seg-tag active">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+      <div class="schedule-row">
+        <div class="ckt-no">06</div>
+        <div class="service-name">Energy audits &amp; optimization</div>
+        <div class="service-desc">Consumption analysis and efficiency recommendations to cut generator and utility costs.</div>
+        <div class="seg-tags">
+          <span class="seg-tag">Residential</span>
+          <span class="seg-tag active">Commercial</span>
+          <span class="seg-tag active">Industrial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="segments">
+  <div class="wrap">
+    <div class="section-tag">// Solutions by segment</div>
+    <h2>Tailored to how you use power</h2>
+    <p class="section-intro">A home, a shop and a factory each have different loads, priorities and budgets. Here's what we typically focus on for each.</p>
+    <div class="segments">
+      <div class="segment-card">
+        <h3>Residential</h3>
+        <ul>
+          <li>Home solar systems sized to daily usage</li>
+          <li>Battery backup for essential loads</li>
+          <li>Rewiring &amp; panel upgrades</li>
+          <li>Generator-to-solar transition planning</li>
+          <li>Troubleshooting &amp; repairs</li>
+        </ul>
+      </div>
+      <div class="segment-card">
+        <h3>Commercial</h3>
+        <ul>
+          <li>Solar systems for shops, offices &amp; hotels</li>
+          <li>UPS for critical equipment</li>
+          <li>Energy audits to cut operating costs</li>
+          <li>Permit-ready electrical drawings</li>
+          <li>Scheduled maintenance contracts</li>
+        </ul>
+      </div>
+      <div class="segment-card">
+        <h3>Industrial</h3>
+        <ul>
+          <li>Large-scale solar &amp; hybrid systems</li>
+          <li>Three-phase load analysis &amp; design</li>
+          <li>Grid-tie and off-grid configurations</li>
+          <li>Full engineering drawing packages</li>
+          <li>Ongoing technical support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-tag">// How it works</div>
+    <h2>From first call to commissioning</h2>
+    <p class="section-intro">The same process applies whether you need one service or a combination — a site visit always comes first.</p>
+    <div class="process">
+      <div class="process-step">
+        <div class="step-no">01</div>
+        <h3>Site visit &amp; assessment</h3>
+        <p>We review your electrical setup, current consumption, generator hours and goals on-site.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-no">02</div>
+        <h3>Design &amp; proposal</h3>
+        <p>You receive a sized system design, drawings if needed, and a clear quote with no hidden items.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-no">03</div>
+        <h3>Supply &amp; installation</h3>
+        <p>Equipment is supplied and installed by our team, working around your schedule.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-no">04</div>
+        <h3>Commissioning &amp; support</h3>
+        <p>System is tested, handed over with documentation, and backed by warranty and maintenance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="portfolio">	
+  <div class="wrap">
+    <div class="section-tag">// Selected projects</div>
+    <h2>Recent work</h2>
+    <p class="section-intro">A sample of Electra projects.</p>
+    <div class="portfolio-filter">
+      <button class="filter-pill active">All</button>
+      <button class="filter-pill">Residential</button>
+      <button class="filter-pill">Commercial</button>
+      <button class="filter-pill">Industrial</button>
+    </div>
+    <div class="portfolio-grid">
+      <div class="case-card">
+        <div class="case-image style="aspect-ratio:1/1; height:auto; "><img src="Photo1.png" alt="Project description" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="case-body">
+          <div class="case-tag">Commercial — Baalbek </div>
+          <h3>6.2 KWp Off-grid Solar System </h3>
+          <p>Off-grid solar and battery system designed to cover daily heavy pharmacy load and eliminate generator subscription dependence.</p>
+          <div class="case-stat">District Generator hours: 12/day → 0/day</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image style="aspect-ratio:1/1; height:auto; "><img src="Photo2.png" alt="Project description" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="case-body">
+          <div class="case-tag">Residential — Douris</div>
+          <h3>Smart Control System</h3>
+          <p>A smart remote-control system for a diesel generator (Lister Petter 13 KVA)</p>
+          <div class="case-stat">Scope: Control & Automation</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-image style="aspect-ratio:1/1; height:auto; "><img src="Photo3.png" alt="Project description" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        <div class="case-body">
+          <div class="case-tag">Commercial — Baalbek</div>
+          <h3>Smart Back-up System</h3>
+          <p>Dependable backup power solution for surveillance and security system.</p>
+          <div class="case-stat">Scope: Back-up</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="warranty">
+  <div class="wrap">
+    <div class="section-tag">// Warranty &amp; maintenance</div>
+    <h2>Support that doesn't end at handover</h2>
+    <div class="warranty-grid">
+      <div class="warranty-card">
+        <div class="wlabel">Installation warranty</div>
+        <p>All installed systems are covered under workmanship warranty, separate from manufacturer warranties on panels, inverters and batteries. Terms are confirmed in writing at proposal stage.</p>
+      </div>
+      <div class="warranty-card">
+        <div class="wlabel">Maintenance &amp; response</div>
+        <p>Ongoing maintenance contracts are available for commercial and industrial clients, covering scheduled inspections and priority response for faults.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-tag">// About Electra</div>
+    <h2>Engineered, not improvised</h2>
+    <div class="about-content">
+      <div>
+        <p>Electra is an electrical engineering consultancy based in Lebanon, providing design, installation and maintenance services for residential, commercial and industrial clients.</p>
+        <p>With the surge in solar installations across Lebanon, many systems are being installed without proper engineering oversight — leading to undersized systems, safety issues and equipment that fails early. Electra's approach starts with engineering: every system is sized, designed and documented by a qualified electrical engineer before any equipment is installed.</p>
+        <p>This means longer-lasting systems, accurate sizing for your actual needs, and documentation you can rely on if you ever need warranty support, expansion, or resale of your property.</p>
+      </div>
+      <div class="credentials">
+        <div class="clabel">Practice</div>
+        <div class="cval">Electrical engineering &amp; solar consultancy</div>
+        <div class="clabel">Based in</div>
+        <div class="cval">Lebanon</div>
+        <div class="clabel">Services</div>
+        <div class="cval">Design · solar · power systems · maintenance</div>
+        <div class="clabel">Client types</div>
+        <div class="cval">Residential, commercial, industrial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section-tag">// Get in touch</div>
+    <h2>Request a free assessment</h2>
+    <p class="section-intro">Tell us about your space and current power setup. We'll get back to you to schedule a site visit.</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="info-row">
+          <span class="info-label">WhatsApp</span>
+          <span class="info-val">+961 71788437</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-val">ammaraffi@gmail.com</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Location</span>
+          <span class="info-val">Beqaa, Lebanon</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Hours</span>
+          <span class="info-val">Fri–Sun, 9:00–17:00</span>
+        </div>
+        <a href="#" class="btn whatsapp-btn">Message on WhatsApp</a>
+      </div>
+      <form onsubmit="event.preventDefault(); alert('Form submitted (demo only — connect to your email or WhatsApp).');">
+        <div class="field-row">
+          <div>
+            <label>Name</label>
+            <input type="text" required>
+          </div>
+          <div>
+            <label>Phone / WhatsApp</label>
+            <input type="text" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Client type</label>
+            <select>
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Industrial</option>
+            </select>
+          </div>
+          <div>
+            <label>Location (city/area)</label>
+            <input type="text">
+          </div>
+        </div>
+        <div>
+          <label>Services needed</label>
+          <div class="checkbox-group">
+            <label class="checkbox-pill"><input type="checkbox"> Solar PV</label>
+            <label class="checkbox-pill"><input type="checkbox"> Power / UPS</label>
+            <label class="checkbox-pill"><input type="checkbox"> Electrical design</label>
+            <label class="checkbox-pill"><input type="checkbox"> Drawings</label>
+            <label class="checkbox-pill"><input type="checkbox"> Maintenance</label>
+            <label class="checkbox-pill"><input type="checkbox"> Energy audit</label>
+          </div>
+        </div>
+        <div>
+          <label>Monthly bill / generator usage (optional)</label>
+          <input type="text" placeholder="e.g. 8 hours/day generator, ~$120/month EDL bill">
+        </div>
+        <div>
+          <label>Additional details</label>
+          <textarea placeholder="Tell us more about your space and goals"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self: flex-start;">Send request</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display: flex; justify-content: space-between; width: 100%;">
+    <span>© 2026 ELECTRA — ENGINEERING &amp; SOLAR SOLUTIONS</span>
+    <span>BEKAA, LEBANON</span>
+  </div>
+</footer>
+
+</body>
+</html>
